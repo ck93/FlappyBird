@@ -22,7 +22,10 @@ namespace FlappyBird
         void ReadRecord()
         {
             if (!FTP.FTPAvailable())
+            {
+                MessageBox.Show("服务器好像出问题了哦，请稍后再查看排名~");
                 return;
+            }
             FTP.Download(Directory.GetCurrentDirectory(), "flappy bird/records.txt", "records.txt", "59.66.133.208", "FlappyBird", "flappybird");
             StreamReader sr = new StreamReader(@".\records.txt");
             string[] record = new string[6];

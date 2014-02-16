@@ -146,6 +146,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Flappy-Bird-Logo.ico" />
+    <None Include="Resources\pipe_up_56.png" />
+    <None Include="Resources\pipe_down_56.png" />
+    <None Include="Resources\pipe_up_50.png" />
+    <None Include="Resources\pipe_down_50.png" />
+    <None Include="Resources\background_500.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

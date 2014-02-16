@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using System.Media;
+using System.Diagnostics;
 
 namespace FlappyBird
 {
@@ -16,26 +17,29 @@ namespace FlappyBird
     {
         const int TIME_INTERVAL = 2;
         const int GRAVITY = 1;
-        const int BIRD_X = 119;
+        const int X_SPEED = 4;        
+        const int BIRD_X = 140;
         const int BIRD_WIDTH = 30;
         const int BIRD_HEIGHT = 30;
-        const int SCENE_HEIGHT = 350;
-        const int SCENE_WIDTH = 350;
-        const int PIPE_WIDTH = 30;
-        const int PIPE_INTERVAL = 105;
-        const int PIPE_IMG_HEIGHT = 250;
-        static int[] GAP = new int[3] { 100, 90, 80 };
-        static int[] MAX = new int[3] { 210, 220, 230 };
-        static int[] MIN = new int[3] { 80, 70, 60 };
+        const int SCENE_HEIGHT = 500;
+        const int SCENE_WIDTH = 500;
+        const int PIPE_WIDTH = 50;
+        const int PIPE_INTERVAL = 150;
+        const int PIPE_IMG_HEIGHT = 300;
+        const string version = "1.1.0";
+        static int[] GAP = new int[3] { 100, 85, 80 };
+        static int[] MAX = new int[3] { 270, 300, 300 };
+        static int[] MIN = new int[3] { 130, 120, 120 };
         Bitmap[] bird = new Bitmap[6];
-        Bitmap pipe_up = new Bitmap(Properties.Resources.pipe_up);
-        Bitmap pipe_down = new Bitmap(Properties.Resources.pipe_down);
+        Bitmap pipe_up = new Bitmap(Properties.Resources.pipe_up_50);
+        Bitmap pipe_down = new Bitmap(Properties.Resources.pipe_down_50);
         Bitmap ground = new Bitmap(Properties.Resources.ground);
-        Bitmap background = new Bitmap(Properties.Resources.background);
+        Bitmap background = new Bitmap(Properties.Resources.background_500);
         Bitmap scene;
         int gap = GAP[1];
         int max = MAX[1];
         int min = MIN[1];
+        int UP_SPEED = -5;
         int bird_y = SCENE_HEIGHT / 2;        
         int v = 0;
         bool ready = false;
@@ -44,7 +48,7 @@ namespace FlappyBird
         bool setting = false;
         bool nameChanged = false;
         List<int> pipeHeight = new List<int>();
-        int pipe_x = 350;
+        int pipe_x = SCENE_WIDTH;
         int groundShift = 0;
         int score = 0;
         int count = 0;        
@@ -74,7 +78,8 @@ namespace FlappyBird
             sr.Close();
             timer2.Start();
             timer3.Start();
-            
+            Thread checkUpdate = new Thread(CheckUpdate);
+            checkUpdate.Start();
         }
 
         private void GenerateHeight()
@@ -83,7 +88,7 @@ namespace FlappyBird
             Random rd = new Random();
             for (int i = 0; i < 4; i++)
             {
-                pipeHeight.Add(rd.Next(100, 210));
+                pipeHeight.Add(rd.Next(180, 300));
                 Thread.Sleep(50);
             }
         }
@@ -192,11 +197,11 @@ namespace FlappyBird
                 bird_y = 0;
             v += GRAVITY;
             if (valid)
-                pipe_x -= 3;
+                pipe_x -= X_SPEED;
             DrawPipes();
             DrawBird();
             count++;
-            if (count == (SCENE_WIDTH - BIRD_X) / 3)
+            if (count == (SCENE_WIDTH - BIRD_X) / X_SPEED)
             {
                 score = 1;
                 Thread th = new Thread(PlayCoinSound);
@@ -204,7 +209,7 @@ namespace FlappyBird
                 label1.Text = score.ToString();
                 count = 0;
             }
-            if (count == PIPE_INTERVAL / 3 && score > 0)
+            if (count == PIPE_INTERVAL / X_SPEED && score > 0)
             {
                 score++;
                 Thread th = new Thread(PlayCoinSound);
@@ -247,7 +252,7 @@ namespace FlappyBird
                     timer1.Start();
                     timer3.Stop();
                 }
-                v = -5;
+                v = UP_SPEED;
                 sound3.Play();
             }
             else if (e.KeyCode == Keys.R && !textBox1.Focused)
@@ -291,7 +296,7 @@ namespace FlappyBird
 
         private void timer2_Tick(object sender, EventArgs e)
         {
-            groundShift -= 3;
+            groundShift -= 4;
             if (groundShift < -16)
                 groundShift = 0;
             DrawGround();
@@ -399,8 +404,8 @@ namespace FlappyBird
             DrawBird();
             bird_y += v * TIME_INTERVAL;
             v += GRAVITY;
-            if (bird_y > 180)
-                v = -5;
+            if (bird_y > 260)
+                v = UP_SPEED;
         }
 
         private void Record()
@@ -444,6 +449,22 @@ namespace FlappyBird
                 FTP.Upload(@".\records.txt", "flappy bird", "59.66.133.208", "FlappyBird", "flappybird");
             }
             File.Delete(@".\records.txt");
+        }
+
+        private void CheckUpdate()
+        {
+            if (!FTP.FTPAvailable())
+                return;
+            FTP.Download(Directory.GetCurrentDirectory(), "flappy bird/version.txt", "version.txt", "59.66.133.208", "FlappyBird", "flappybird");
+            StreamReader sr = new StreamReader(@".\version.txt");
+            string latest = sr.ReadLine();
+            sr.Close();
+            File.Delete(@".\version.txt");
+            if (latest != version)
+            {
+                if (MessageBox.Show("检查到新版本！当前版本为" + version + "，最新版本为" + latest + "!", "检查更新", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+                    Process.Start("http://pan.baidu.com/s/1sjGsFnR");
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

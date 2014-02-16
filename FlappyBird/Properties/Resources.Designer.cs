@@ -73,6 +73,16 @@ namespace FlappyBird.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap background_500 {
+            get {
+                object obj = ResourceManager.GetObject("background_500", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap bird_20_20 {
             get {
                 object obj = ResourceManager.GetObject("bird_20_20", resourceCulture);
@@ -143,9 +153,29 @@ namespace FlappyBird.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap pipe_down_50 {
+            get {
+                object obj = ResourceManager.GetObject("pipe_down_50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap pipe_up {
             get {
                 object obj = ResourceManager.GetObject("pipe_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
+        internal static System.Drawing.Bitmap pipe_up_50 {
+            get {
+                object obj = ResourceManager.GetObject("pipe_up_50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
