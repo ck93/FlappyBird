@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Flappy-Bird-Logo.ico" />
+    <None Include="Resources\positioning.png" />
     <None Include="Resources\pipe_up_56.png" />
     <None Include="Resources\pipe_down_56.png" />
     <None Include="Resources\pipe_up_50.png" />

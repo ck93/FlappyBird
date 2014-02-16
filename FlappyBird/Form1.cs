@@ -24,17 +24,14 @@ namespace FlappyBird
         const int SCENE_HEIGHT = 500;
         const int SCENE_WIDTH = 500;
         const int PIPE_WIDTH = 50;
-        const int PIPE_INTERVAL = 150;
+        const int PIPE_INTERVAL = 148;
         const int PIPE_IMG_HEIGHT = 300;
-        const string version = "1.1.0";
+        const string version = "1.1.3";
         static int[] GAP = new int[3] { 100, 85, 80 };
         static int[] MAX = new int[3] { 270, 300, 300 };
         static int[] MIN = new int[3] { 130, 120, 120 };
         Bitmap[] bird = new Bitmap[6];
-        Bitmap pipe_up = new Bitmap(Properties.Resources.pipe_up_50);
-        Bitmap pipe_down = new Bitmap(Properties.Resources.pipe_down_50);
-        Bitmap ground = new Bitmap(Properties.Resources.ground);
-        Bitmap background = new Bitmap(Properties.Resources.background_500);
+        Bitmap pipe_up, pipe_down, ground, background;
         Bitmap scene;
         int gap = GAP[1];
         int max = MAX[1];
@@ -63,6 +60,7 @@ namespace FlappyBird
         {
             InitializeComponent();
             ReadResources();
+            ReadPlayerName();
             GenerateHeight();           
             label1.Parent = pictureBox1;
             panel1.Parent = pictureBox1;
@@ -70,17 +68,41 @@ namespace FlappyBird
             panel3.Parent = pictureBox1;
             panel1.Visible = false;
             panel3.Visible = false;
-            radioButton2.Checked = true;
-            StreamReader sr = new StreamReader(configFile);
-            sr.ReadLine();
-            name = Encoding.Default.GetString(Convert.FromBase64String(sr.ReadLine()));
-            textBox1.Text = name;
-            sr.Close();
+            radioButton2.Checked = true;            
             timer2.Start();
             timer3.Start();
             Thread checkUpdate = new Thread(CheckUpdate);
             checkUpdate.Start();
         }
+
+        #region 窗体拖动
+        Point mouseOff;
+        bool leftFlag;
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseOff = new Point(-e.X, -e.Y);
+                leftFlag = true;
+            }
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (leftFlag)
+            {
+                Point mouseSet = Control.MousePosition;
+                mouseSet.Offset(mouseOff.X, mouseOff.Y);
+                Location = mouseSet;
+            }
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (leftFlag)
+                leftFlag = false;
+        }
+        #endregion
 
         private void GenerateHeight()
         {
@@ -101,7 +123,21 @@ namespace FlappyBird
             bird[3] = new Bitmap(Properties.Resources.red_bird_down_1);
             bird[4] = new Bitmap(Properties.Resources.red_bird_down_2);
             bird[5] = new Bitmap(Properties.Resources.red_bird_down_3);
+            pipe_up = new Bitmap(Properties.Resources.pipe_up_50);
+            pipe_down = new Bitmap(Properties.Resources.pipe_down_50);
+            ground = new Bitmap(Properties.Resources.ground);
+            background = new Bitmap(Properties.Resources.background_500);
         }
+
+        private void ReadPlayerName()
+        {
+            StreamReader sr = new StreamReader(configFile);
+            sr.ReadLine();
+            name = Encoding.Default.GetString(Convert.FromBase64String(sr.ReadLine()));
+            textBox1.Text = name;
+            sr.Close();
+        }
+
         private void DrawBird()
         {            
             Graphics g = Graphics.FromImage(scene);
@@ -249,6 +285,7 @@ namespace FlappyBird
                 {
                     ready = true;
                     panel2.Visible = false;
+                    label8.Visible = false;
                     timer1.Start();
                     timer3.Stop();
                 }
@@ -463,7 +500,7 @@ namespace FlappyBird
             if (latest != version)
             {
                 if (MessageBox.Show("检查到新版本！当前版本为" + version + "，最新版本为" + latest + "!", "检查更新", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
-                    Process.Start("http://pan.baidu.com/s/1sjGsFnR");
+                    Process.Start("http://pan.baidu.com/s/1gdFXqHt");
             }
         }
 
@@ -476,6 +513,6 @@ namespace FlappyBird
         {
             Form2 f2 = new Form2();
             f2.ShowDialog();
-        }
+        }       
     }
 }

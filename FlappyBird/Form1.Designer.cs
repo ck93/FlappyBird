@@ -40,6 +40,7 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.label6 = new System.Windows.Forms.Label();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.label8 = new System.Windows.Forms.Label();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -163,10 +164,21 @@
             this.timer3.Interval = 50;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.label8.Font = new System.Drawing.Font("华文隶书", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.Location = new System.Drawing.Point(50, 101);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(412, 30);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "Press \"S\" to start / fly and \"R\" to replay";
+            // 
             // pictureBox6
             // 
             this.pictureBox6.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox6.Image = global::FlappyBird.Properties.Resources.rank;
+            this.pictureBox6.Image = global::FlappyBird.Properties.Resources.positioning;
             this.pictureBox6.Location = new System.Drawing.Point(2, 0);
             this.pictureBox6.Name = "pictureBox6";
             this.pictureBox6.Size = new System.Drawing.Size(30, 30);
@@ -305,6 +317,9 @@
             this.pictureBox1.Size = new System.Drawing.Size(500, 500);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // Form1
             // 
@@ -312,6 +327,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(500, 510);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -367,6 +383,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.Label label8;
     }
 }
 

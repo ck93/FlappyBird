@@ -183,6 +183,16 @@ namespace FlappyBird.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap positioning {
+            get {
+                object obj = ResourceManager.GetObject("positioning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap rank {
             get {
                 object obj = ResourceManager.GetObject("rank", resourceCulture);
